@@ -1,46 +1,61 @@
 import socket
-import os, sys, stat
 import threading
 
 # DEFINING CONSTANTS
 USER = "waseem"
 PASSWD = "password"
-UNICODETYPE = "utf-8"
+FORMAT = "utf-8"
 
 
-class Request(threading.Thread):
-    def __init__(self, soc, address):
-        threading.Thread.__init__(self)
-        self.sock = soc
-        self.add = address
-
-    def run(self):
-        self.start_request()
-
-    def start_request(self):
-        while True:
-            print(f"Connecting with {str(self.add)}")
-            request = self.sock.recv(2024)
-            msg = request.decode("utf-8")
-
-            if "waseem" in msg:
-                print("Waseem is in the msg")
-
-            if msg == "done":
-                self.sock.close()
-
-    def is_valid(self, username, password):
-        if USER == username and PASSWD == password:
-            return True
-        else:
-            return False
+def is_username_valid(username):
+    if USER == username:
+        return True
+    else:
+        return False
 
 
-def client_request(connection, addr):
-    print("Starting server")
+def is_password_valid(passwd):
+    if passwd == PASSWD:
+        return True
+    else:
+        return False
+
+
+def client_request(my_socket, addr):
+    # TODO: ONE ERROR EITHER TO BE FIXED OR REMOVED IS THE WHILE THAT KEEPS ASKING THE USER FOR USERNAME-PASSWORD
+    print("Got a connection from %s" % str(addr))
+
     while True:
-        msg = connection.recv(1024).decode("utf-8")
-        print(msg)
+        username_req = "Insert Username: "
+        my_socket.send(username_req.encode(FORMAT))
+        req = my_socket.recv(2024)
+        client_username = req.decode("utf-8")
+        if is_username_valid(client_username):
+            while True:
+                password_req = "Insert Password: "
+                my_socket.send(password_req.encode(FORMAT))
+                req = my_socket.recv(2024)
+                client_passowrd = req.decode("utf-8")
+                if is_password_valid(client_passowrd):
+                    while True:
+                        req = my_socket.recv(2024)
+                        option = req.decode("utf-8")
+                        # TODO ADD SOME OPTIONS, SINCE WE HAVE TIME WE CAN DO COOL STUFF HERE, IF WE DO COOL STUFF WE
+                        #  JUST EDIT THE IS_VALID FUNCTIONS
+                        if option == "doctor":
+                            pass
+                        elif option == "disease":
+                            pass
+                        elif option == "bills":
+                            pass
+                        elif option == "done":
+                            break
+
+                    my_socket.close()
+                else:
+                    my_socket.send("Invalid Password!".encode(FORMAT))
+        else:
+            my_socket.send("Invalid Username!".encode(FORMAT))
 
 
 def main():
@@ -50,11 +65,11 @@ def main():
     port = 9999
     serversocket.bind((server_address, port))
     serversocket.listen()
-    clients = []
+
     # starting to receive requests
     while True:
-        connection, addr = serversocket.accept()
-        client_connection = threading.Thread(target=client_request, args=(connection, addr))
+        sock, addr = serversocket.accept()
+        client_connection = threading.Thread(target=client_request, args=(sock, addr))
         client_connection.start()
 
 
