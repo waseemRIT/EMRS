@@ -10,10 +10,14 @@ username = input("Enter username: ")
 s.send(username.encode())
 password = input("Enter password: ")
 s.send(password.encode())
-# Receive data from server
+# Continiously recieve data from server
 while True:
     data = s.recv(1024)
-    if not data:
-        break
     print(data.decode())
+    #Check if data contains the word "Choice:"
+    if "Choice:" in data.decode():
+        choice = input("Enter your choice: ")
+        s.send(choice.encode())
+        
+s.close()
 
