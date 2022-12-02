@@ -34,7 +34,7 @@ def client_request(my_socket, addr):
         # Send an acknowledgement to the client
         LoginSuccess = False
         my_socket.send("\nLogin failed".encode(FORMAT))
-    if LoginSuccess:
+    if LoginSuccess == True:
         while True:
             # Send a menu to the client
             my_socket.send("\nWelcome to the server".encode(FORMAT))
@@ -75,7 +75,7 @@ def client_request(my_socket, addr):
             elif choice == "done":
                 my_socket.send("\nExiting".encode(FORMAT))
                 my_socket.close()
-    elif not LoginSuccess:
+    elif LoginSuccess == False:
         my_socket.send("\n invalid username or password\nExiting...".encode(FORMAT))
         my_socket.close()
 
