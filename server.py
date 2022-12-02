@@ -5,73 +5,92 @@ import threading
 USER = "waseem"
 PASSWD = "password"
 FORMAT = "utf-8"
+LoginSuccess = False
 
-
-def is_username_valid(username):
-    if USER == username:
-        return True
-    else:
-        return False
-
-
-def is_password_valid(passwd):
-    if passwd == PASSWD:
-        return True
-    else:
-        return False
-
+# Medical Records
+medical_records = ["Patient1", "Patient2", "Patient3", "Patient4", "Patient5"]
+# Doctors
+doctors = ["Doctor1", "Doctor2", "Doctor3", "Doctor4", "Doctor5"]
+# Hospitals
+hospitals = ["Hospital1", "Hospital2", "Hospital3", "Hospital4", "Hospital5"]
+# Pharmacies
+pharmacies = ["Pharmacy1", "Pharmacy2", "Pharmacy3", "Pharmacy4", "Pharmacy5"]
 
 def client_request(my_socket, addr):
-    # TODO: ONE ERROR EITHER TO BE FIXED OR REMOVED IS THE WHILE THAT KEEPS ASKING THE USER FOR USERNAME-PASSWORD
-    print("Got a connection from %s" % str(addr))
-
-    while True:
-        username_req = "Insert Username: "
-        my_socket.send(username_req.encode(FORMAT))
-        req = my_socket.recv(2024)
-        client_username = req.decode("utf-8")
-        if is_username_valid(client_username):
-            while True:
-                password_req = "Insert Password: "
-                my_socket.send(password_req.encode(FORMAT))
-                req = my_socket.recv(2024)
-                client_passowrd = req.decode("utf-8")
-                if is_password_valid(client_passowrd):
-                    while True:
-                        req = my_socket.recv(2024)
-                        option = req.decode("utf-8")
-                        # TODO ADD SOME OPTIONS, SINCE WE HAVE TIME WE CAN DO COOL STUFF HERE, IF WE DO COOL STUFF WE
-                        #  JUST EDIT THE IS_VALID FUNCTIONS
-                        if option == "doctor":
-                            pass
-                        elif option == "disease":
-                            pass
-                        elif option == "bills":
-                            pass
-                        elif option == "done":
-                            break
-
-                    my_socket.close()
-                else:
-                    my_socket.send("Invalid Password!".encode(FORMAT))
-        else:
-            my_socket.send("Invalid Username!".encode(FORMAT))
-
+    #Print the address of the client that just connected
+    print("Connection from: " + str(addr))
+    #Recieve the username input from the client
+    username = my_socket.recv(1024).decode(FORMAT)
+    #Recieve the password from the client
+    password = my_socket.recv(1024).decode(FORMAT)
+    my_socket.send("Hi".encode(FORMAT))
+    #Verify the username and password
+    if username == USER and password == PASSWD:
+        #Send an acknowledgement to the client
+        LoginSuccess = True
+        my_socket.send("\nLogin successful".encode(FORMAT))
+    else:
+        #Send an acknowledgement to the client
+        LoginSuccess = False
+        my_socket.send("\nLogin failed".encode(FORMAT))
+    if LoginSuccess == True:
+        #Send a menu to the client
+        my_socket.send("\nWelcome to the server".encode(FORMAT))
+        #send a option to send Medical Records
+        my_socket.send("\n1. Send Medical Records".encode(FORMAT))
+        #Send a option to send a list of doctors
+        my_socket.send("\n2. Send a list of doctors".encode(FORMAT))
+        #Send a option to send a list of hospitals
+        my_socket.send("\n3. Send a list of hospitals".encode(FORMAT))
+        #Send a option to send a list of pharmacies
+        my_socket.send("\n4. Send a list of pharmacies".encode(FORMAT))
+        #type done to exit
+        my_socket.send("\nType 'done' to exit".encode(FORMAT))
+        #Recieve the choices from the client
+        my_socket.send("Enter your Choice: ".encode(FORMAT))
+        choice = my_socket.recv(1024).decode(FORMAT)
+        #Send the appropriate data to the client
+        if choice == "1":
+            my_socket.send("\nSending Medical Records".encode(FORMAT))
+            for record in medical_records:
+                my_socket.send(record.encode(FORMAT))
+        elif choice == "2":
+            my_socket.send("\nSending a list of doctors".encode(FORMAT))
+            for doctor in doctors:
+                my_socket.send(doctor.encode(FORMAT))
+        elif choice == "3":
+            my_socket.send("\nSending a list of hospitals".encode(FORMAT))
+            for hospital in hospitals:
+                my_socket.send(hospital.encode(FORMAT))
+        elif choice == "4":
+            my_socket.send("\nSending a list of pharmacies".encode(FORMAT))
+            for pharmacy in pharmacies:
+                my_socket.send(pharmacy.encode(FORMAT))
+        elif choice == "done":
+            my_socket.send("\nExiting".encode(FORMAT))
+            my_socket.close()
+    elif LoginSuccess == False:
+        my_socket.send("\n invalid username or password\nExiting...".encode(FORMAT))
+        my_socket.close()
 
 def main():
-    # server set up
-    serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server_address = socket.gethostname()
+    #Create a socket object
+    my_socket = socket.socket()
+    #Get the hostname
+    host = socket.gethostname()
+    #Reserve a port for your service
     port = 9999
-    serversocket.bind((server_address, port))
-    serversocket.listen()
-
-    # starting to receive requests
+    #Bind to the port
+    my_socket.bind((host, port))
+    #Wait for client connection
+    my_socket.listen(5)
     while True:
-        sock, addr = serversocket.accept()
-        client_connection = threading.Thread(target=client_request, args=(sock, addr))
-        client_connection.start()
+        #Establish connection with client
+        c, addr = my_socket.accept()
+        #Start a new thread and return its identifier
+        t = threading.Thread(target=client_request, args=(c, addr))
+        #Start new thread
+        t.start()
 
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
