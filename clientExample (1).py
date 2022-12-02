@@ -4,11 +4,16 @@ host = socket.gethostname()
 port = 9999
 
 s.connect((host, port))
-s.send("".encode("utf-8"))
 
+# Send username and password to server
+username = input("Enter username: ")
+s.send(username.encode())
+password = input("Enter password: ")
+s.send(password.encode())
+# Receive data from server
 while True:
-    recieved =s.recv(2024)
-    print (recieved.decode('utf-8'))
+    data = s.recv(1024)
+    if not data:
+        break
+    print(data.decode())
 
-    reply = input("")
-    s.send(reply.encode("utf-8"))
