@@ -1,4 +1,5 @@
 import socket
+
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 host = socket.gethostname()
 port = 9999
@@ -10,14 +11,13 @@ username = input("Enter username: ")
 s.send(username.encode())
 password = input("Enter password: ")
 s.send(password.encode())
-# Continiously recieve data from server
+# Continuously receive data from server
 while True:
     data = s.recv(1024)
-    print(data.decode())
-    #Check if data contains the word "Choice:"
+    print(f"\n{data.decode()}")
+    # Check if data contains the word "Choice:"
     if "Choice:" in data.decode():
         choice = input("Enter your choice: ")
         s.send(choice.encode())
-        
-s.close()
 
+s.close()

@@ -2,13 +2,13 @@ import socket
 import threading
 
 # DEFINING CONSTANTS
-USER = "waseem"
+USER = "admin"
 PASSWD = "password"
 FORMAT = "utf-8"
 LoginSuccess = False
 
 # Medical Records
-medical_records = ["Patient1", "Patient2", "Patient3", "Patient4", "Patient5"]
+patients = ["Patient1", "Patient2", "Patient3", "Patient4", "Patient5"]
 # Doctors
 doctors = ["Doctor1", "Doctor2", "Doctor3", "Doctor4", "Doctor5"]
 # Hospitals
@@ -34,27 +34,27 @@ def client_request(my_socket, addr):
         # Send an acknowledgement to the client
         LoginSuccess = False
         my_socket.send("\nLogin failed".encode(FORMAT))
-    if LoginSuccess == True:
+    if LoginSuccess:
         while True:
             # Send a menu to the client
-            my_socket.send("\nWelcome to the server".encode(FORMAT))
+            my_socket.send("Welcome to the server\n".encode(FORMAT))
             # send a option to send Medical Records
-            my_socket.send("\n1. Send Medical Records".encode(FORMAT))
+            my_socket.send("1. Send Medical Records\n".encode(FORMAT))
             # Send a option to send a list of doctors
-            my_socket.send("\n2. Send a list of doctors".encode(FORMAT))
+            my_socket.send("2. Send a list of doctors\n".encode(FORMAT))
             # Send a option to send a list of hospitals
-            my_socket.send("\n3. Send a list of hospitals".encode(FORMAT))
+            my_socket.send("3. Send a list of hospitals\n".encode(FORMAT))
             # Send a option to send a list of pharmacies
-            my_socket.send("\n4. Send a list of pharmacies".encode(FORMAT))
+            my_socket.send("4. Send a list of pharmacies\n".encode(FORMAT))
             # type done to exit
-            my_socket.send("\nType 'done' to exit".encode(FORMAT))
+            my_socket.send("Type 'done' to exit\n".encode(FORMAT))
             # Receive the choices from the client
             my_socket.send("Enter your Choice: ".encode(FORMAT))
             choice = my_socket.recv(1024).decode(FORMAT)
             # Send the appropriate data to the client
             if choice == "1":
                 my_socket.send("\nSending Medical Records".encode(FORMAT))
-                for record in medical_records:
+                for record in patients:
                     my_socket.send(record.encode(FORMAT))
                     continue
             elif choice == "2":
@@ -75,7 +75,7 @@ def client_request(my_socket, addr):
             elif choice == "done":
                 my_socket.send("\nExiting".encode(FORMAT))
                 my_socket.close()
-    elif LoginSuccess == False:
+    elif not LoginSuccess:
         my_socket.send("\n invalid username or password\nExiting...".encode(FORMAT))
         my_socket.close()
 
