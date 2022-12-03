@@ -34,27 +34,27 @@ azan_time = get_azan_time()
 
 def get_farj():
     fajr = azan_time[1][1]
-    return f"Fajr Azan is at: {fajr}"
+    return f"Fajr Azan is at: {fajr}\n"
 
 
 def get_Dhur():
     Dhur = azan_time[2][1]
-    return f"Dhur Azan is at: {Dhur}"
+    return f"Dhur Azan is at: {Dhur}\n"
 
 
 def get_Asr():
     Asr = azan_time[3][1]
-    return f"Asr Azan is at: {Asr}"
+    return f"Asr Azan is at: {Asr}\n"
 
 
 def get_Maghrib():
     Maghrib = azan_time[4][1]
-    return f"Maghrib Azan is at: {Maghrib}"
+    return f"Maghrib Azan is at: {Maghrib}\n"
 
 
 def get_Isha():
     Isha = azan_time[5][1]
-    return f"Isha Azan is at: {Isha}"
+    return f"Isha Azan is at: {Isha}\n"
 
 
 def client_request(my_socket, addr):
@@ -75,9 +75,9 @@ def client_request(my_socket, addr):
         LoginSuccess = False
         my_socket.send("\nLogin failed".encode(FORMAT))
     if LoginSuccess:
+        my_socket.send("\nWelcome to the server\nThese are Dubai Timings\n".encode(FORMAT))
         while True:
             # Send a menu to the client
-            my_socket.send("Welcome to the server\n".encode(FORMAT))
             # send a option to send Fajr Athan Timing
             my_socket.send("[1] Send Fajr Time\n".encode(FORMAT))
             # send a option to send Duhr Athan Timing

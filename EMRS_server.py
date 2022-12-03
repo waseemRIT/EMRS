@@ -34,9 +34,9 @@ def client_request(my_socket, addr):
         LoginSuccess = False
         my_socket.send("\nLogin failed".encode(FORMAT))
     if LoginSuccess == True:
+        my_socket.send("\n\nWelcome to the server\n".encode(FORMAT))
         while True:
             # Send a menu to the client
-            my_socket.send("\n\nWelcome to the server\n".encode(FORMAT))
             # send a option to send Medical Records
             my_socket.send("\n[1] Send Medical Records".encode(FORMAT))
             # Send a option to send a list of doctors
