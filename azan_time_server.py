@@ -79,15 +79,15 @@ def client_request(my_socket, addr):
             # Send a menu to the client
             my_socket.send("Welcome to the server\n".encode(FORMAT))
             # send a option to send Fajr Athan Timing
-            my_socket.send("1. Send Fajr Time\n".encode(FORMAT))
+            my_socket.send("[1] Send Fajr Time\n".encode(FORMAT))
             # send a option to send Duhr Athan Timing
-            my_socket.send("2. Send Duhr Time\n".encode(FORMAT))
+            my_socket.send("[2] Send Duhr Time\n".encode(FORMAT))
             # send a option to send Aser Athan Timing
-            my_socket.send("3. Send Aser Time\n".encode(FORMAT))
+            my_socket.send("[3] Send Aser Time\n".encode(FORMAT))
             # send a option to send Maghrib Athan Timing
-            my_socket.send("4. Send Maghrib Time\n".encode(FORMAT))
+            my_socket.send("[4] Send Maghrib Time\n".encode(FORMAT))
             # send a option to send Isha Athan Timing
-            my_socket.send("5. Send Isha Time\n".encode(FORMAT))
+            my_socket.send("[5] Send Isha Time\n".encode(FORMAT))
             # type done to exit
             my_socket.send("Type 'done' to exit\n".encode(FORMAT))
             # Receive the choices from the client

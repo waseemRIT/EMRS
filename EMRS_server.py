@@ -66,7 +66,7 @@ def client_request(my_socket, addr):
             elif choice == "3":
                 my_socket.send("\nSending a list of hospitals".encode(FORMAT))
                 for hospital in hospitals:
-                    # Format the send
+                    # Format to send
                     my_socket.send("\n{}".format(hospital).encode(FORMAT))
                     continue
             elif choice == "4":
