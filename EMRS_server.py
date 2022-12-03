@@ -33,7 +33,7 @@ def client_request(my_socket, addr):
         # Send an acknowledgement to the client
         LoginSuccess = False
         my_socket.send("\nLogin failed".encode(FORMAT))
-    if LoginSuccess:
+    if LoginSuccess == True:
         while True:
             # Send a menu to the client
             my_socket.send("\n\nWelcome to the server\n".encode(FORMAT))
@@ -46,7 +46,7 @@ def client_request(my_socket, addr):
             # Send a option to send a list of pharmacies
             my_socket.send("\n[4] Send a list of pharmacies".encode(FORMAT))
             # type done to exit
-            my_socket.send("Type 'done' to exit\n".encode(FORMAT))
+            my_socket.send("\nType 'done' to exit\n".encode(FORMAT))
             # Receive the choices from the client
             my_socket.send("\nEnter your Choice: ".encode(FORMAT))
             choice = my_socket.recv(1024).decode(FORMAT)
@@ -66,7 +66,7 @@ def client_request(my_socket, addr):
             elif choice == "3":
                 my_socket.send("\nSending a list of hospitals".encode(FORMAT))
                 for hospital in hospitals:
-                    # Format to send
+                    # Format the send
                     my_socket.send("\n{}".format(hospital).encode(FORMAT))
                     continue
             elif choice == "4":
@@ -79,7 +79,8 @@ def client_request(my_socket, addr):
                 my_socket.send("\nExiting".encode(FORMAT))
                 print("Client disconnected " + str(addr))
                 my_socket.close()
-    elif not LoginSuccess:
+                break
+    elif LoginSuccess == False:
         my_socket.send("\n invalid username or password\nExiting...".encode(FORMAT))
         # Terminate the connection with the client
         my_socket.close()

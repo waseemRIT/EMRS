@@ -14,11 +14,14 @@ s.send(password.encode())
 # Continuously receive data from server
 while True:
     data = s.recv(1024)
-    print(f"\n{data.decode()}")
+    print(data.decode())
     # Check if data contains the word "Choice:"
     if "Choice:" in data.decode():
         choice = input()
         s.send(choice.encode())
-    if "done" or "invalid username" in data.decode():
+    elif "Exiting" in data.decode():
         break
+    elif "invalid username" in data.decode():
+        break
+
 s.close()
