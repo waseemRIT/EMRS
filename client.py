@@ -17,7 +17,8 @@ while True:
     print(f"\n{data.decode()}")
     # Check if data contains the word "Choice:"
     if "Choice:" in data.decode():
-        choice = input("Enter your choice: ")
+        choice = input()
         s.send(choice.encode())
-
+    if "done" or "invalid username" in data.decode():
+        break
 s.close()

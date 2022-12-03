@@ -24,7 +24,6 @@ def client_request(my_socket, addr):
     username = my_socket.recv(1024).decode(FORMAT)
     # Receive the password from the client
     password = my_socket.recv(1024).decode(FORMAT)
-    my_socket.send("Hi".encode(FORMAT))
     # Verify the username and password
     if username == USER and password == PASSWD:
         # Send an acknowledgement to the client
@@ -37,46 +36,52 @@ def client_request(my_socket, addr):
     if LoginSuccess:
         while True:
             # Send a menu to the client
-            my_socket.send("Welcome to the server\n".encode(FORMAT))
+            my_socket.send("\n\nWelcome to the server\n".encode(FORMAT))
             # send a option to send Medical Records
-            my_socket.send("1. Send Medical Records\n".encode(FORMAT))
+            my_socket.send("\n[1] Send Medical Records".encode(FORMAT))
             # Send a option to send a list of doctors
-            my_socket.send("2. Send a list of doctors\n".encode(FORMAT))
+            my_socket.send("\n[2] Send a list of doctors".encode(FORMAT))
             # Send a option to send a list of hospitals
-            my_socket.send("3. Send a list of hospitals\n".encode(FORMAT))
+            my_socket.send("\n[3] Send a list of hospitals".encode(FORMAT))
             # Send a option to send a list of pharmacies
-            my_socket.send("4. Send a list of pharmacies\n".encode(FORMAT))
+            my_socket.send("\n[4] Send a list of pharmacies".encode(FORMAT))
             # type done to exit
             my_socket.send("Type 'done' to exit\n".encode(FORMAT))
             # Receive the choices from the client
-            my_socket.send("Enter your Choice: ".encode(FORMAT))
+            my_socket.send("\nEnter your Choice: ".encode(FORMAT))
             choice = my_socket.recv(1024).decode(FORMAT)
             # Send the appropriate data to the client
             if choice == "1":
                 my_socket.send("\nSending Medical Records".encode(FORMAT))
                 for record in patients:
-                    my_socket.send(record.encode(FORMAT))
+                    # Format the send
+                    my_socket.send("\n{}".format(record).encode(FORMAT))
                     continue
             elif choice == "2":
                 my_socket.send("\nSending a list of doctors".encode(FORMAT))
                 for doctor in doctors:
-                    my_socket.send(doctor.encode(FORMAT))
+                    # Format the send
+                    my_socket.send("\n{}".format(doctor).encode(FORMAT))
                     continue
             elif choice == "3":
                 my_socket.send("\nSending a list of hospitals".encode(FORMAT))
                 for hospital in hospitals:
-                    my_socket.send(hospital.encode(FORMAT))
+                    # Format the send
+                    my_socket.send("\n{}".format(hospital).encode(FORMAT))
                     continue
             elif choice == "4":
                 my_socket.send("\nSending a list of pharmacies".encode(FORMAT))
                 for pharmacy in pharmacies:
-                    my_socket.send(pharmacy.encode(FORMAT))
+                    # Format the send
+                    my_socket.send("\n{}".format(pharmacy).encode(FORMAT))
                     continue
             elif choice == "done":
                 my_socket.send("\nExiting".encode(FORMAT))
+                print("Client disconnected " + str(addr))
                 my_socket.close()
     elif not LoginSuccess:
         my_socket.send("\n invalid username or password\nExiting...".encode(FORMAT))
+        # Terminate the connection with the client
         my_socket.close()
 
 
