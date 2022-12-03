@@ -3,6 +3,11 @@ import bs4
 import socket
 import threading
 
+# DEFINING CONSTANTS
+USER = "admin"
+PASSWD = "password"
+FORMAT = "utf-8"
+LoginSuccess = False
 headers = ['Fajr', 'Sunrise', 'Dhuhr', 'Asr', 'Maghrib', 'Isha']
 
 
@@ -52,15 +57,6 @@ def get_Isha():
     return f"Isha Azan is at: {Isha}"
 
 
-# DEFINING CONSTANTS
-USER = "admin"
-PASSWD = "password"
-FORMAT = "utf-8"
-LoginSuccess = False
-
-
-
-
 def client_request(my_socket, addr):
     # Print the address of the client that just connected
     print("Connection from: " + str(addr))
@@ -82,15 +78,15 @@ def client_request(my_socket, addr):
         while True:
             # Send a menu to the client
             my_socket.send("Welcome to the server\n".encode(FORMAT))
-            # send a option to send Medical Records
+            # send a option to send Fajr Athan Timing
             my_socket.send("1. Send Fajr Time\n".encode(FORMAT))
-            # Send a option to send a list of doctors
+            # send a option to send Duhr Athan Timing
             my_socket.send("2. Send Duhr Time\n".encode(FORMAT))
-            # Send a option to send a list of hospitals
+            # send a option to send Aser Athan Timing
             my_socket.send("3. Send Aser Time\n".encode(FORMAT))
-            # Send a option to send a list of pharmacies
+            # send a option to send Maghrib Athan Timing
             my_socket.send("4. Send Maghrib Time\n".encode(FORMAT))
-            #
+            # send a option to send Isha Athan Timing
             my_socket.send("5. Send Isha Time\n".encode(FORMAT))
             # type done to exit
             my_socket.send("Type 'done' to exit\n".encode(FORMAT))
@@ -99,15 +95,15 @@ def client_request(my_socket, addr):
             choice = my_socket.recv(1024).decode(FORMAT)
             # Send the appropriate data to the client
             if choice == "1":
-                    my_socket.send(get_farj().encode(FORMAT))
-                    continue
+                my_socket.send(get_farj().encode(FORMAT))
+                continue
             elif choice == "2":
-                    my_socket.send(get_Dhur().encode(FORMAT))
+                my_socket.send(get_Dhur().encode(FORMAT))
             elif choice == "3":
-                    my_socket.send(get_Asr().encode(FORMAT))
+                my_socket.send(get_Asr().encode(FORMAT))
             elif choice == "4":
-                    my_socket.send(get_Maghrib().encode(FORMAT))
-                    continue
+                my_socket.send(get_Maghrib().encode(FORMAT))
+                continue
             elif choice == 5:
                 my_socket.send(get_Isha().encode(FORMAT))
                 continue
