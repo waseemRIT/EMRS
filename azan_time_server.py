@@ -138,5 +138,5 @@ def main():
             print("Client Force Stop")
 
 
-if __name__ == "__main__":
+if __name_ == "__main__":
     main()
