@@ -129,14 +129,14 @@ def main():
     while True:
         # Establish connection with client
         c, addr = my_socket.accept()
-        try:
-            # Start a new thread and return its identifier
-            t = threading.Thread(target=client_request, args=(c, addr))
-            # Start new thread
-            t.start()
-        except  OSError:
-            print("Client Force Stop")
+
+        # Start a new thread and return its identifier
+        t = threading.Thread(target=client_request, args=(c, addr))
+        # Start new thread
+        t.start()
+
+        print("Client Force Stop")
 
 
-if __name_ == "__main__":
-    main()
+
+main()

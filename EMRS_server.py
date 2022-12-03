@@ -33,7 +33,7 @@ def client_request(my_socket, addr):
         # Send an acknowledgement to the client
         LoginSuccess = False
         my_socket.send("\nLogin failed".encode(FORMAT))
-    if LoginSuccess == True:
+    if LoginSuccess:
         my_socket.send("\n\nWelcome to the server\n".encode(FORMAT))
         while True:
             # Send a menu to the client
@@ -80,7 +80,7 @@ def client_request(my_socket, addr):
                 print("Client disconnected " + str(addr))
                 my_socket.close()
                 break
-    elif LoginSuccess == False:
+    elif not LoginSuccess:
         my_socket.send("\n invalid username or password\nExiting...".encode(FORMAT))
         # Terminate the connection with the client
         my_socket.close()
