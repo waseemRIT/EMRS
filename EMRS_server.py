@@ -86,6 +86,9 @@ def client_request(my_socket, addr):
                 print("Client disconnected " + str(addr))
                 my_socket.close()
                 break
+            else:
+                my_socket.send("\nOption Doesn't Exist\nTry Again!".encode(FORMAT))
+                continue
     elif not LoginSuccess:
         my_socket.send("\n invalid username or password\nExiting...".encode(FORMAT))
         # Terminate the connection with the client
