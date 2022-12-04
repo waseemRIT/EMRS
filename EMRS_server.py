@@ -1,3 +1,9 @@
+# Group Members:
+# 1. Muaz Osman
+# 2. Waseem Qaffaf
+# 3. Kassem Darawcha
+# 4. Muneer Alremawi
+
 import socket
 import threading
 
