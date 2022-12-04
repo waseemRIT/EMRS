@@ -8,13 +8,13 @@ FORMAT = "utf-8"
 LoginSuccess = False
 
 # Medical Records
-patients = ["Patient1", "Patient2", "Patient3", "Patient4", "Patient5"]
+patients = ["Hamza : Headaches", "Mustafa : Diabetes", "Omar : Cholera", "Osama : Chickenpox", "Khalid : eczema"]
 # Doctors
-doctors = ["Doctor1", "Doctor2", "Doctor3", "Doctor4", "Doctor5"]
+doctors = ["Dr. Waseem : Cardiologists", "Dr. Kassem : Anesthesiologists", "Dr. Muneer : Dermatologists", "Dr. Muaz : Endocrinologists", "Dr. Huda : Dentist"]
 # Hospitals
-hospitals = ["Hospital1", "Hospital2", "Hospital3", "Hospital4", "Hospital5"]
+Nurses = ["Florence Nightingale : Certified Nursing Assistant (CNA) ", "Clara Barton : Registered Nurse (RN) ", "Mary Breckinridge : Surgical Assistant Registered Nurse ", "Dorothea Dix : Emergency Room Registered Nurse ", "Margaret Sanger : Licensed Vocational Nurse (LVN)"]
 # Pharmacies
-pharmacies = ["Pharmacy1", "Pharmacy2", "Pharmacy3", "Pharmacy4", "Pharmacy5"]
+equipment = ["Defibrillators", "Patient Monitors", "Sterilizers", "Surgical Tables", "Blanket and Fluid Warmers."]
 
 
 def client_request(my_socket, addr):
@@ -34,17 +34,17 @@ def client_request(my_socket, addr):
         LoginSuccess = False
         my_socket.send("\nLogin failed".encode(FORMAT))
     if LoginSuccess:
-        my_socket.send("\n\nWelcome to the server\n".encode(FORMAT))
+        my_socket.send("\n\nWelcome to the Dubai Palm Jumeirah CSEC Hospital\n".encode(FORMAT))
         while True:
             # Send a menu to the client
             # send a option to send Medical Records
-            my_socket.send("\n[1] Send Medical Records".encode(FORMAT))
+            my_socket.send("\n[1] Send Patients Records".encode(FORMAT))
             # Send a option to send a list of doctors
-            my_socket.send("\n[2] Send a list of doctors".encode(FORMAT))
+            my_socket.send("\n[2] Send a list of Doctors Records".encode(FORMAT))
             # Send a option to send a list of hospitals
-            my_socket.send("\n[3] Send a list of hospitals".encode(FORMAT))
+            my_socket.send("\n[3] Send a list of Nurses Records".encode(FORMAT))
             # Send a option to send a list of pharmacies
-            my_socket.send("\n[4] Send a list of pharmacies".encode(FORMAT))
+            my_socket.send("\n[4] Send a list of hospital equipment".encode(FORMAT))
             # type done to exit
             my_socket.send("\nType 'done' to exit\n".encode(FORMAT))
             # Receive the choices from the client
@@ -52,26 +52,26 @@ def client_request(my_socket, addr):
             choice = my_socket.recv(1024).decode(FORMAT)
             # Send the appropriate data to the client
             if choice == "1":
-                my_socket.send("\nSending Medical Records".encode(FORMAT))
+                my_socket.send("\nSending Patients Records".encode(FORMAT))
                 for record in patients:
                     # Format the send
                     my_socket.send("\n{}".format(record).encode(FORMAT))
                     continue
             elif choice == "2":
-                my_socket.send("\nSending a list of doctors".encode(FORMAT))
+                my_socket.send("\nSending a list of Doctors Records".encode(FORMAT))
                 for doctor in doctors:
                     # Format the send
                     my_socket.send("\n{}".format(doctor).encode(FORMAT))
                     continue
             elif choice == "3":
-                my_socket.send("\nSending a list of hospitals".encode(FORMAT))
-                for hospital in hospitals:
+                my_socket.send("\nSending a list of Nurses Records".encode(FORMAT))
+                for nurse in Nurses:
                     # Format the send
-                    my_socket.send("\n{}".format(hospital).encode(FORMAT))
+                    my_socket.send("\n{}".format(nurse).encode(FORMAT))
                     continue
             elif choice == "4":
-                my_socket.send("\nSending a list of pharmacies".encode(FORMAT))
-                for pharmacy in pharmacies:
+                my_socket.send("\nSending a list of Hospital Equipment Records".encode(FORMAT))
+                for pharmacy in equipment:
                     # Format the send
                     my_socket.send("\n{}".format(pharmacy).encode(FORMAT))
                     continue
