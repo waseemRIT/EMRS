@@ -40,7 +40,7 @@ def client_request(my_socket, addr):
         LoginSuccess = False
         my_socket.send("\nLogin failed".encode(FORMAT))
     if LoginSuccess:
-        my_socket.send("\n\nWelcome to the Dubai Palm Jumeirah CSEC Hospital\n".encode(FORMAT))
+        my_socket.send("\n\nWelcome to the Dubai Palm Jumeirah CSEC Hospital Records Server\n".encode(FORMAT))
         while True:
             # Send a menu to the client
             # send a option to send Medical Records
