@@ -96,23 +96,27 @@ def client_request(my_socket, addr):
 
 
 def main():
-    # Create a socket object
-    my_socket = socket.socket()
-    # Get the hostname
-    host = socket.gethostname()
-    # Reserve a port for your service
-    port = 9999
-    # Bind to the port
-    my_socket.bind((host, port))
-    # Wait for client connection
-    my_socket.listen(5)
-    while True:
-        # Establish connection with client
-        c, addr = my_socket.accept()
-        # Start a new thread and return its identifier
-        t = threading.Thread(target=client_request, args=(c, addr))
-        # Start new thread
-        t.start()
+    try:
+        # Create a socket object
+        my_socket = socket.socket()
+        # Get the hostname
+        host = socket.gethostname()
+        # Reserve a port for your service
+        port = 9999
+        # Bind to the port
+        my_socket.bind((host, port))
+        # Wait for client connection
+        my_socket.listen(5)
+        while True:
+            # Establish connection with client
+            c, addr = my_socket.accept()
+            # Start a new thread and return its identifier
+            t = threading.Thread(target=client_request, args=(c, addr))
+            # Start new thread
+            t.start()
+    except Exception as e:
+        print("Error: " + str(e))
+        my_socket.close()
 
 
 if __name__ == "__main__":
