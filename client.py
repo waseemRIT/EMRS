@@ -5,13 +5,14 @@
 # 4. Muneer Alremawi
 
 import socket
-
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-host = socket.gethostname()
-port = 9999
-
-s.connect((host, port))
-
+try:
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    host = socket.gethostname()
+    port = 9999
+    s.connect((host, port))
+except socket.error as e:
+    print(str(e))
+    
 # Send username and password to server
 username = input("Enter username: ")
 s.send(username.encode())
