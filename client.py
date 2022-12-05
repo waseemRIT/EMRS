@@ -36,19 +36,4 @@ while True:
     elif "invalid Username or Password" in data.decode():   # To Exit after notifying user that username/password is
         break # Invalid
 
-    # Receive data from server
-    data = s.recv(1024)
-    # Print data
-    print(data.decode())
-    # Check if data contains the word "Choice:" then send user choice to server
-    if "Choice:" in data.decode():
-        choice = input()
-        s.send(choice.encode())
-    # Check if data contains the word "Exiting" then break
-    elif "Exiting" in data.decode():
-        break
-    # Check if data contains the word "invalid username" then break
-    elif "invalid username" in data.decode():
-        break
-
 s.close()   # to close the socket between client and server
