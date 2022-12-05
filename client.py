@@ -11,11 +11,11 @@ try:
     host = socket.gethostname() # gets the  address of client machine used to connect later on
     port = 9999 # 9999 is the communication port between client and server
     s.connect((host, port)) # connects the client with the server
-except:
+except socket.error:
     print("Connection Error")
     # End the program
     exit()
-    
+
 # Send username and password to server
 username = input("Enter username: ")
 # Send username to server
